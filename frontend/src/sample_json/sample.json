@@ -1,0 +1,202 @@
+{
+    "counters": {
+        "u_column": 1,
+        "u_row": 1,
+        "u_content_heading": 1,
+        "u_content_html": 2,
+        "u_content_image": 1,
+        "u_content_text": 1
+    },
+    "body": {
+        "rows": [
+            {
+                "cells": [
+                    1
+                ],
+                "columns": [
+                    {
+                        "contents": [
+                            {
+                                "type": "heading",
+                                "values": {
+                                    "containerPadding": "10px",
+                                    "headingType": "h1",
+                                    "fontFamily": {
+                                        "label": "Arial",
+                                        "value": "arial,helvetica,sans-serif"
+                                    },
+                                    "fontSize": "22px",
+                                    "textAlign": "left",
+                                    "lineHeight": "140%",
+                                    "linkStyle": {
+                                        "inherit": true,
+                                        "linkColor": "#0000ee",
+                                        "linkHoverColor": "#0000ee",
+                                        "linkUnderline": true,
+                                        "linkHoverUnderline": true
+                                    },
+                                    "_meta": {
+                                        "htmlID": "u_content_heading_1",
+                                        "htmlClassNames": "u_content_heading"
+                                    },
+                                    "selectable": true,
+                                    "draggable": true,
+                                    "duplicatable": true,
+                                    "deletable": true,
+                                    "hideable": true,
+                                    "text": "Sample Template"
+                                }
+                            },
+                            {
+                                "type": "html",
+                                "values": {
+                                    "html": "<strongYou can add you HTML here!</strong>",
+                                    "containerPadding": "10px",
+                                    "_meta": {
+                                        "htmlID": "u_content_html_1",
+                                        "htmlClassNames": "u_content_html"
+                                    },
+                                    "selectable": true,
+                                    "draggable": true,
+                                    "duplicatable": true,
+                                    "deletable": true,
+                                    "hideable": true
+                                }
+                            },
+                            {
+                                "type": "html",
+                                "values": {
+                                    "html": "<strong>You can add you HTML here!</strong>",
+                                    "containerPadding": "10px",
+                                    "_meta": {
+                                        "htmlID": "u_content_html_2",
+                                        "htmlClassNames": "u_content_html"
+                                    },
+                                    "selectable": true,
+                                    "draggable": true,
+                                    "duplicatable": true,
+                                    "deletable": true,
+                                    "hideable": true
+                                }
+                            },
+                            {
+                                "type": "image",
+                                "values": {
+                                    "containerPadding": "10px",
+                                    "src": {
+                                        "url": "https://images.unsplash.com/photo-1595853035070-59a39fe84de3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=725&q=80",
+                                        "width": 725,
+                                        "height": 580
+                                    },
+                                    "textAlign": "center",
+                                    "altText": "",
+                                    "action": {
+                                        "name": "web",
+                                        "values": {
+                                            "href": "",
+                                            "target": "_blank"
+                                        }
+                                    },
+                                    "_meta": {
+                                        "htmlID": "u_content_image_1",
+                                        "htmlClassNames": "u_content_image"
+                                    },
+                                    "selectable": true,
+                                    "draggable": true,
+                                    "duplicatable": true,
+                                    "deletable": true,
+                                    "hideable": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "values": {
+                                    "containerPadding": "10px",
+                                    "textAlign": "left",
+                                    "lineHeight": "140%",
+                                    "linkStyle": {
+                                        "inherit": true,
+                                        "linkColor": "#0000ee",
+                                        "linkHoverColor": "#0000ee",
+                                        "linkUnderline": true,
+                                        "linkHoverUnderline": true
+                                    },
+                                    "_meta": {
+                                        "htmlID": "u_content_text_1",
+                                        "htmlClassNames": "u_content_text"
+                                    },
+                                    "selectable": true,
+                                    "draggable": true,
+                                    "duplicatable": true,
+                                    "deletable": true,
+                                    "hideable": true,
+                                    "text": "<p style=\"font-size: 14px; line-height: 140%;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+                                }
+                            }
+                        ],
+                        "values": {
+                            "_meta": {
+                                "htmlID": "u_column_1",
+                                "htmlClassNames": "u_column"
+                            }
+                        }
+                    }
+                ],
+                "values": {
+                    "displayCondition": null,
+                    "columns": false,
+                    "backgroundColor": "",
+                    "columnsBackgroundColor": "",
+                    "backgroundImage": {
+                        "url": "",
+                        "fullWidth": true,
+                        "repeat": false,
+                        "center": true,
+                        "cover": false
+                    },
+                    "padding": "0px",
+                    "hideDesktop": false,
+                    "_meta": {
+                        "htmlID": "u_row_1",
+                        "htmlClassNames": "u_row"
+                    },
+                    "selectable": true,
+                    "draggable": true,
+                    "duplicatable": true,
+                    "deletable": true,
+                    "hideable": true
+                }
+            }
+        ],
+        "values": {
+            "textColor": "#000000",
+            "backgroundColor": "#e7e7e7",
+            "backgroundImage": {
+                "url": "",
+                "fullWidth": true,
+                "repeat": false,
+                "center": true,
+                "cover": false
+            },
+            "contentWidth": "500px",
+            "contentAlign": "center",
+            "fontFamily": {
+                "label": "Arial",
+                "value": "arial,helvetica,sans-serif"
+            },
+            "preheaderText": "",
+            "linkStyle": {
+                "body": true,
+                "linkColor": "#0000ee",
+                "linkHoverColor": "#0000ee",
+                "linkUnderline": true,
+                "linkHoverUnderline": true
+            },
+            "_meta": {
+                "htmlID": "u_body",
+                "htmlClassNames": "u_body"
+            }
+        }
+    },
+    "schemaVersion": 6
+}
