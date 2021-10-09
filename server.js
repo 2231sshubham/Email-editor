@@ -62,6 +62,6 @@ app.get('*', function(req, res) {
 //
 // }
 
-app.listen(process.env.PORT || 0.0.0.0,function(){
+app.listen(process.env.PORT || 3001,function(){
   console.log(`Server started on port ${port}`);
 });
