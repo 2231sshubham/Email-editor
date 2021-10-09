@@ -48,7 +48,7 @@ app.get("/authenticate",function(req,res){
 })
 
 
-
+console.log(shop);
 
 
 

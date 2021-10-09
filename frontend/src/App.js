@@ -8,8 +8,6 @@ const axios = require('axios')
 
 // const port = process.env.PORT || 3001;
 
-console.log(url.api_url);
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
