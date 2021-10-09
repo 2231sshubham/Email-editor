@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 
 const tempSchema = new Schema({
+  shop : String,
   counters : String,
   body : String
 })
