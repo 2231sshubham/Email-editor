@@ -63,5 +63,5 @@ app.get('*', function(req, res) {
 // }
 
 app.listen(process.env.PORT || 3001,function(){
-  console.log(`Server started on port ${port}`);
+  console.log('Server started');
 });
