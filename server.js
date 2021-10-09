@@ -34,22 +34,20 @@ app.get("/authenticate",function(req,res){
 
   var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
-  const query  = Template.where({ shop : shop });
-  query.findOne(function (err, template) {
-    if (err) return handleError(err);
-    if (!template) {
-      console.log("About to get redirected");
-      res.redirect('/');
-    }
-    else{
-      res.redirect(installUrl);
-    }
-  });
+  res.redirect(installUrl);
+  
+  // const query  = Template.where({ shop : shop });
+  // query.findOne(function (err, template) {
+  //   if (err) return handleError(err);
+  //   if (!template) {
+  //     console.log("About to get redirected");
+  //     res.redirect('/');
+  //   }
+  //   else{
+  //     res.redirect(installUrl);
+  //   }
+  // });
 })
-
-
-console.log(shop);
-
 
 
 
