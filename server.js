@@ -125,7 +125,7 @@ app.post("/api",( async (req,res) => {
        upsert : true
      }
    )
-   res.send("Succesfully saved");
+   res.send("Succesfully saved" + shop);
   }));
 
 app.get("/api",((req,res) => {

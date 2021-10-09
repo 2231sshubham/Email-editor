@@ -63,12 +63,7 @@ async function editDesign(){
       counters : counters,
       body : body
     }
-    if(design.isEmpty()){
-      alert("Template not found, please save first!")
-    }
-    else{
-      emailEditorRef.current.editor.loadDesign(design);
-    }
+    emailEditorRef.current.editor.loadDesign(design);
 };
 
 
