@@ -107,13 +107,18 @@ router.get('/auth', function (req, res, next) {
 app.post("/api",( async (req,res) => {
   let counters = JSON.stringify(req.body.counters);
   let body = JSON.stringify(req.body.body);
-  const newTemplate = new Template({
-    shop : shop,
-    counters : counters,
-    body : body
-  });
-  newTemplate.save({isNew:false});
-}));
+   Template.updateOne(
+     {shop : shop },
+     {
+       shop : shop,
+       counters : counters,
+       body : body
+     },
+     {
+       upsert : true
+     }
+   )
+  }));
 
 app.get("/api",((req,res) => {
   Template.findOne({shop : shop})
