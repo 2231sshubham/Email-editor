@@ -45,7 +45,7 @@ const App = (props) => {
         counters : counters,
         body : body
       }
-      axios.post(url.api_url,obj)
+      axios.post(url.api_url,obj).then(res => (alert(res.data)));
       console.log("Design",design);
       alert('Design JSON has been logged in your developer console.');
       exportHtml();

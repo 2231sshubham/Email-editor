@@ -1,5 +1,5 @@
 const url = {
-  "api_url" : "https://immense-bastion-38233.herokuapp.com/api"
+  "api_url" : "http://localhost:3001/api"
 }
 
 module.exports = url;

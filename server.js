@@ -107,10 +107,9 @@ router.get('/auth', function (req, res, next) {
 app.post("/api",( async (req,res) => {
   let counters = JSON.stringify(req.body.counters);
   let body = JSON.stringify(req.body.body);
-   Template.updateOne(
+  const ans = await Template.updateOne(
      {shop : shop },
      {
-       shop : shop,
        counters : counters,
        body : body
      },
@@ -118,6 +117,7 @@ app.post("/api",( async (req,res) => {
        upsert : true
      }
    )
+   res.send("Succesfully saved");
   }));
 
 app.get("/api",((req,res) => {
