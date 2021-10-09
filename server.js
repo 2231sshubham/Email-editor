@@ -23,13 +23,11 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // app.use("/",require("./routes/templateRoute"));
 
-// app.get("/Oauth",function(req,res){
-//
-//
-//   res.redirect(auth_url)
-// })
-//
-//
+app.get("/Oauth",function(req,res){
+  res.send("You've arrived at Oauth");
+})
+
+// 
 // app.get("/",function(req,res){
 //
 // })
