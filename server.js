@@ -30,7 +30,7 @@ app.get("/authenticate",function(req,res){
   var appId = config.api_key;
   var appSecret = config.api_secret;
   var appScope = config.scopes;
-  var appDomain = "https://immense-bastion-38233.herokuapp.com"
+  var appDomain = "immense-bastion-38233.herokuapp.com"
 
   var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
