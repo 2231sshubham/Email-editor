@@ -3,10 +3,12 @@ import EmailEditor from 'react-email-editor';
 import styled from "styled-components"
 import sample from "./sample_json/sample";
 import {} from "react-router-dom";
+const url = require('./config')
 const axios = require('axios')
 
 // const port = process.env.PORT || 3001;
 
+console.log(url.api_url);
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +45,7 @@ const App = (props) => {
         counters : counters,
         body : body
       }
-      axios.post("/api",obj)
+      axios.post(url.api_url,obj)
       console.log("Design",design);
       alert('Design JSON has been logged in your developer console.');
       exportHtml();
@@ -56,7 +58,7 @@ const App = (props) => {
 
 
 async function editDesign(){
-    const obj = await axios.get("/api")
+    const obj = await axios.get(url.api_url)
     let counters = JSON.parse(obj.data.counters);
     let body = JSON.parse(obj.data.body);
     let design = {
