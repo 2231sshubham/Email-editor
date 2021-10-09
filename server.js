@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.get("/Oauth",function(req,res){
   var shop = req.query.shop;
-  var appID = config.api_key;
+  var appId = config.api_key;
   var appSecret = config.api_secret;
   var appScope = config.scopes;
   var appDomain = "https://immense-bastion-38233.herokuapp.com/"
