@@ -47,8 +47,15 @@ app.get("/authenticate",function(req,res){
   });
 })
 
+
+
+
+
+
+
+
 //
-router.get('/auth', function (req, res, next) {
+app.get('/auth', function (req, res, next) {
     let securityPass = false;
     let code = req.query.code;
 
