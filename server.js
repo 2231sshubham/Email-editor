@@ -43,15 +43,6 @@ app.get("/Oauth",function(req,res){
       res.redirect(installUrl);
     }
   });
-
-  if (process.env.appStoreTokenTest.length > 0) {
-        res.redirect('/shopify/app?shop=' + shop);
-    } else {
-        //go here if you don't have the token yet
-        res.redirect(installUrl);
-    }
-
-  res.redirect(installUrl);
 })
 
 //
