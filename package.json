@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "hmac-validator": "^0.1.0",
     "mongoose": "^6.0.9",
-    "shopify-node-api": "^1.11.1"
+    "shopify-node-api": "^1.11.1",
+    "url": "^0.11.0"
   }
 }

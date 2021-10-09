@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const router = express.Router();
 const path = require("path")
+var url = require("url")
 var config = require('./config.json');
 var verifyCall = require('./tools/verify');
 const Template = require("./models/templateModel");
@@ -35,7 +36,7 @@ app.get("/authenticate",function(req,res){
   var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
   res.redirect(installUrl);
-  
+
   // const query  = Template.where({ shop : shop });
   // query.findOne(function (err, template) {
   //   if (err) return handleError(err);
