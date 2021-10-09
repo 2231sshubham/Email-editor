@@ -129,9 +129,14 @@ app.post("/api",( async (req,res) => {
   }));
 
 app.get("/api",((req,res) => {
-  Template.findOne({shop : shop})
-    .then(data => {res.send(data)})
-}));;
+  const query  = Template.where({ shop: shop });
+  query.findOne(function (err, template) {
+    if (err) return handleError(err);
+    if (template){
+      res.send(template)
+      }
+    });
+}));
 
 
 app.use(express.static(path.join(__dirname, 'frontend/build')));
