@@ -11,6 +11,7 @@ const Template = require("./models/templateModel");
 
 
 const app = express();
+var shop = "";
 
 name = config.name;
 pass = config.pass;
@@ -25,7 +26,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 // app.use("/",require("./routes/templateRoute"));
 
 app.get("/Oauth",function(req,res){
-  var shop = req.query.shop;
+  shop = req.query.shop;
   var appId = config.api_key;
   var appSecret = config.api_secret;
   var appScope = config.scopes;
@@ -115,7 +116,7 @@ app.post("/api",( async (req,res) => {
 }));
 
 app.get("/api",((req,res) => {
-  Template.findOne()
+  Template.findOne({shop : shop})
     .then(data => {res.send(data)})
 }));;
 
