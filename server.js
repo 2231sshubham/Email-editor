@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // app.use("/",require("./routes/templateRoute"));
 
-app.get("/Oauth",function(req,res){
+app.get("/auth",function(req,res){
   shop = req.query.shop;
   var appId = config.api_key;
   var appSecret = config.api_secret;
