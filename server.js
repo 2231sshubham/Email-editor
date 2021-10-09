@@ -1,10 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const router = express.Router();
 const path = require("path")
 var config = require('./config.json');
 const Template = require("./models/templateModel");
+var shopifyAPI = require('shopify-node-api');
+
+
 
 const app = express();
 
@@ -13,36 +17,56 @@ pass = config.pass;
 var url = "mongodb+srv://"+name+":"+pass+"@email-editor.kre0j.mongodb.net/email-editor";
 mongoose.connect(url)
 
-
-// const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'https://fierce-ocean-21330.herokuapp.com/']
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     console.log("** Origin of request " + origin)
-//     if (whitelist.indexOf(origin) !== -1 || !origin) {
-//       console.log("Origin acceptable")
-//       callback(null, true)
-//     } else {
-//       console.log("Origin rejected")
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-
 app.use(cors())
 app.use(express.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 
 // app.use("/",require("./routes/templateRoute"));
+
+app.get("/Oauth",function(req,res){
+
+  var nonce = RandomSource.getRandomValues()
+  var Shopify = new shopifyAPI({
+    shop: req.body.shop,
+    shopify_api_key: config.api_key,
+    shopify_shared_secret: config.api_secret,
+    shopify_scope: config.scopes,
+    redirect_uri: config.redirect_url,
+    nonce: nonce
+  });
+  let auth_url = Shopify.buildAuthURL();
+  res.redirect(auth_url)
+})
+
+
+app.get("/",function(req,res){
+  var Shopify = new shopifyAPI({
+  shop: req.body.shop,
+  shopify_api_key: config.api_key,
+  shopify_shared_secret: config.api_secret,
+  shopify_scope: config.scopes,
+  redirect_uri: config.redirect_url,
+  nonce: nonce
+  }),
+  query_params = req.query;
+
+  Shopify.exchange_temporary_token(query_params, function(err, data){
+      if(!err){
+        console.log("success");
+      }
+      else throw err;
+  });
+})
 
 
 app.post("/api",( async (req,res) => {
   let counters = JSON.stringify(req.body.counters);
   let body = JSON.stringify(req.body.body);
-  const newTemplate = new Template({
-    counters : counters,
-    body : body
-  });
-  newTemplate.save({isNew:false});
+  Template.where({ _id: id }).setOptions({upsert:true}).update({
+     counters : counters,
+     body : body
+   })
 }));
 
 app.get("/api",((req,res) => {
