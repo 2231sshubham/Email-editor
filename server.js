@@ -33,7 +33,7 @@ app.get("/authenticate",function(req,res){
   var appScope = config.scopes;
   var appDomain = "immense-bastion-38233.herokuapp.com"
 
-  var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
+  var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}`;
 
   res.redirect(installUrl);
 
@@ -54,60 +54,60 @@ app.get("/authenticate",function(req,res){
 
 
 //
-app.get('/auth', function (req, res, next) {
-    let securityPass = false;
-    let code = req.query.code;
-
-
-    const regex = /^[a-z\d_.-]+[.]myshopify[.]com$/;
-
-    if (shop.match(regex)) {
-        console.log('regex is ok');
-        securityPass = true;
-    } else {
-        //exit
-        securityPass = false;
-    }
-
-    // 1. Parse the string URL to object
-    let urlObj = url.parse(req.url);
-    // 2. Get the 'query string' portion
-    let query = urlObj.search.slice(1);
-    if (verifyCall.verify(query)) {
-        //get token
-        console.log('get token');
-        securityPass = true;
-    } else {
-        //exit
-        securityPass = false;
-    }
-
-    if (securityPass && regex) {
-
-        //Exchange temporary code for a permanent access token
-        let accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
-        let accessTokenPayload = {
-            client_id: appId,
-            client_secret: appSecret,
-            code,
-        };
-
-        request.post(accessTokenRequestUrl, { json: accessTokenPayload })
-            .then((accessTokenResponse) => {
-                let accessToken = accessTokenResponse.access_token;
-                console.log('shop token ' + accessToken);
-
-                res.redirect('/');
-            })
-            .catch((error) => {
-                res.status(error.statusCode).send(error.error.error_description);
-            });
-    }
-    else {
-        console.log("Error occured");
-    }
-
-});
+// app.get('/auth', function (req, res, next) {
+//     let securityPass = false;
+//     let code = req.query.code;
+//
+//
+//     const regex = /^[a-z\d_.-]+[.]myshopify[.]com$/;
+//
+//     if (shop.match(regex)) {
+//         console.log('regex is ok');
+//         securityPass = true;
+//     } else {
+//         //exit
+//         securityPass = false;
+//     }
+//
+//     // 1. Parse the string URL to object
+//     let urlObj = url.parse(req.url);
+//     // 2. Get the 'query string' portion
+//     let query = urlObj.search.slice(1);
+//     if (verifyCall.verify(query)) {
+//         //get token
+//         console.log('get token');
+//         securityPass = true;
+//     } else {
+//         //exit
+//         securityPass = false;
+//     }
+//
+//     if (securityPass && regex) {
+//
+//         //Exchange temporary code for a permanent access token
+//         let accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
+//         let accessTokenPayload = {
+//             client_id: appId,
+//             client_secret: appSecret,
+//             code,
+//         };
+//
+//         request.post(accessTokenRequestUrl, { json: accessTokenPayload })
+//             .then((accessTokenResponse) => {
+//                 let accessToken = accessTokenResponse.access_token;
+//                 console.log('shop token ' + accessToken);
+//
+//                 res.redirect('/');
+//             })
+//             .catch((error) => {
+//                 res.status(error.statusCode).send(error.error.error_description);
+//             });
+//     }
+//     else {
+//         console.log("Error occured");
+//     }
+//
+// });
 
 
 
@@ -124,7 +124,7 @@ app.post("/api",( async (req,res) => {
        upsert : true
      }
    )
-   res.send("Succesfully saved" + shop);
+   res.send("Succesfully saved: " + shop);
   }));
 
 app.get("/api",((req,res) => {
