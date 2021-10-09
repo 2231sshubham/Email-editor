@@ -3,7 +3,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const router = express.Router();
 const path = require("path")
-const port = process.env.PORT || 3001;
 var config = require('./config.json');
 const Template = require("./models/templateModel");
 
@@ -63,6 +62,6 @@ app.get('*', function(req, res) {
 //
 // }
 
-app.listen(port,function(){
+app.listen(process.env.PORT || 3001,function(){
   console.log(`Server started on port ${port}`);
 });
