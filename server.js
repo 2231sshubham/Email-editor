@@ -36,7 +36,6 @@ app.use(express.json());
 // app.use("/",require("./routes/templateRoute"));
 
 
-
 app.post("/api",( async (req,res) => {
   let counters = JSON.stringify(req.body.counters);
   let body = JSON.stringify(req.body.body);
@@ -52,14 +51,17 @@ app.get("/api",((req,res) => {
     .then(data => {res.send(data)})
 }));;
 
-if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, 'frontend/build')));
+
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 // Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
-  });
-}
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+});
+
+// if (process.env.NODE_ENV === 'production') {
+//   // Serve any static files
+//
+// }
 
 app.listen(port,function(){
   console.log(`Server started on port ${port}`);
