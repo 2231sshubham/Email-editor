@@ -1,8 +1,0 @@
-{
-  "api_key" : "d0216f42be2bf105b0f8b818e0001f8c",
-  "api_secret" : "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",
-  "scopes" : "write_orders,read_customers",
-  "redirect_url" : "https://immense-bastion-38233.herokuapp.com/",
-  "name" : "shubham",
-  "pass" : "7Hh1qWROphs5w4bn"
-}
