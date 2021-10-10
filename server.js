@@ -16,7 +16,7 @@ const app = express();
 var shop = "";
 var from = "test.purpose.editor@gmail.com";
 const transporter = nodemailer.createTransport({
-port: 465,             
+port: 465,
 host: "smtp.gmail.com",
    auth: {
         user: from,
@@ -37,7 +37,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-// app.use("/",require("./routes/templateRoute"));
 
 app.get("/authenticate",function(req,res){
   shop = req.query.shop;
@@ -98,7 +97,7 @@ app.post("/form",async function(req,res){
     to: to,
     subject: subject,
     text: body,
-    html : "<p>You've Succesfully sent an email"
+    html : "<p>You've Succesfully sent an email</p>"
   };
     transporter.sendMail(mailData, function (err, info) {
       if(err)
@@ -109,10 +108,6 @@ app.post("/form",async function(req,res){
 })
 
 
-
-// app.post("/test",function(req,res){
-//   console.log(req.body);
-// })
 
 
 

@@ -1,7 +1,6 @@
 {
-
-  "api_key" : "997ab6be17badd9c7d397c12220847ea",
-  "api_secret" : "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",
+  "api_key" : "d0216f42be2bf105b0f8b818e0001f8c",
+  "api_secret" : "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",
   "scopes" : "write_orders,read_customers",
   "redirect_url" : "https://immense-bastion-38233.herokuapp.com/",
   "name" : "shubham",
