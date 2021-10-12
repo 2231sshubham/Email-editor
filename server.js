@@ -68,7 +68,7 @@ app.get("/authenticate", async function(req,res){
 
 app.get("/",function(req,res){
   const app = createApp({
-  apiKey: appId,
+  apiKey: config.api_key,
   host: "https://immense-bastion-38233.herokuapp.com",
   });
   const redirect = Redirect.create(app);
