@@ -66,7 +66,6 @@ app.get('/auth',function (req, res, next) {
     let securityPass = false;
     let appId = config.api_key;
     let appSecret = config.api_secret;
-    let shop = shop;
     let code = req.query.code;
 
 
