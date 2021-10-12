@@ -82,7 +82,8 @@ app.get('/auth',function (req, res, next) {
     // 1. Parse the string URL to object
     let urlObj = new Url(req.url);
     // 2. Get the 'query string' portion
-    let query = urlObj.search.slice(1);
+    let urlString = urlObj.toString();
+    let query = urlString.search.slice(1);
     if (verifyCall.verify(query)) {
         //get token
         securityPass = true;
