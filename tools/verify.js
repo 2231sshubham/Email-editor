@@ -1,4 +1,5 @@
 var hmacValidator = require('hmac-validator');
+var config = require('../config.json');
 
 exports.verify = function(query) {
 var validate = hmacValidator({
@@ -18,5 +19,5 @@ var validate = hmacValidator({
 });
 
     // 3. Verify signature
-return validate(process.env.appSecret, null, query);
+return validate(config.api_secret, null, query);
 };
