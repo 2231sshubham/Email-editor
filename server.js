@@ -50,11 +50,11 @@ app.get("/authenticate", async function(req,res){
   var appScope = config.scopes;
   var appDomain = "immense-bastion-38233.herokuapp.com"
 
-  const app = createApp({
-  apiKey: appId,
-  host: appDomain,
-  });
-  const redirect = Redirect.create(app);
+  // const app = createApp({
+  // apiKey: appId,
+  // host: appDomain,
+  // });
+  // const redirect = Redirect.create(app);
 
 
 

@@ -5,8 +5,7 @@ const { Schema } = mongoose;
 const tempSchema = new Schema({
   shop : String,
   counters : String,
-  body : String,
-  access_token : String
+  body : String
 })
 const Template = mongoose.model('Template', tempSchema);
 
