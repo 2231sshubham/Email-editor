@@ -85,11 +85,7 @@ app.get('/auth',function (req, res, next) {
         //exit
         securityPass = false;
     }
-
-    // 1. Parse the string URL to object
-    let urlObj = url.parse(req.url);
-    // 2. Get the 'query string' portion
-    let query = urlObj.search.slice(1);
+    let query = qs.stringify(req.query);
     if (verifyCall.verify(query)) {
         //get token
         securityPass = true;
