@@ -61,7 +61,6 @@ app.get('/', function (req, res, next) {
   open( 'https://immense-bastion-38233.herokuapp.com', function (err) {
     if ( err ) throw err;
   });
-  res.redirect("https://"+shop+".myshopify.com/admin/apps")
 });
 
 
