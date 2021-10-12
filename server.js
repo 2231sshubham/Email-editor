@@ -2,8 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const router = express.Router();
-const path = require("path")
 const request  = require("request-promise")
 var qs = require('querystringify');
 var config = require('./config.json');
@@ -13,15 +11,7 @@ const Template = require("./models/templateModel");
 const axios = require('axios');
 
 
-const app = createApp({
-  apiKey: config.api_key,
-  host: config.host
-});
-const redirect = Redirect.create(app);
-redirect.dispatch(Redirect.Action.APP, '/authenticate');
-
-var host = "immense-bastion-38233.herokuapp.com"
-app = express();
+const app = express();
 var shop = "";
 var from = "test.purpose.editor@gmail.com";
 const transporter = nodemailer.createTransport({
@@ -55,8 +45,6 @@ app.get("/authenticate", async function(req,res){
   var appDomain = "immense-bastion-38233.herokuapp.com"
 
   installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
-
-  res.redirect(installUrl);
 
   const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
   if (accessToken.length > 0) {
@@ -114,7 +102,7 @@ app.get('/auth',async function (req, res, next) {
                   upsert : true
                 });
 
-                res.redirect('/';
+                res.redirect('/');
             })
             .catch((error) => {
                 res.status(error.statusCode).send(error.error.error_description);
