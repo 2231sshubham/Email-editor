@@ -69,7 +69,7 @@ app.get("/authenticate", async function(req,res){
 // ACCESS-TOKEN
 
 var accessToken = "";
-app.get('/auth',function (req, res, next) {
+app.get('/auth',async function (req, res, next) {
   const accessToken = await Template.find({shop:shop},{_id:0,token:1});
   if (accessToken.length > 0) {
         res.redirect('/');
