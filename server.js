@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const router = express.Router();
 const path = require("path")
-const request  = require("request")
+const request  = require("request-promise")
 var qs = require('querystringify');
 var config = require('./config.json');
 var nodemailer = require('nodemailer');
@@ -51,18 +51,90 @@ app.get("/authenticate", async function(req,res){
   var appScope = config.scopes;
   var appDomain = "immense-bastion-38233.herokuapp.com"
 
-  var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}`;
+  var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
-  res.redirect(installUrl)
+  res.redirect(installUrl);
+
+  const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
+  if (accessToken.length > 0) {
+        res.redirect('/');
+    } else {
+        //go here if you don't have the token yet
+        res.redirect(installUrl);
+    }
 
 })
 
-app.get('/', function (req, res, next) {
-  open( 'https://immense-bastion-38233.herokuapp.com', function (err) {
-    if ( err ) throw err;
-  });
+
+// ACCESS-TOKEN
+
+var accessToken = "";
+app.get('/auth',function (req, res, next) {
+    let securityPass = false;
+    let appId = config.api_key;
+    let appSecret = config.api_secret;
+    let shop = shop;
+    let code = req.query.code;
+
+
+    const regex = /^[a-z\d_.-]+[.]myshopify[.]com$/;
+
+    if (shop.match(regex)) {
+        console.log('regex is ok');
+        securityPass = true;
+    } else {
+        //exit
+        securityPass = false;
+    }
+
+    // 1. Parse the string URL to object
+    let urlObj = url.parse(req.url);
+    // 2. Get the 'query string' portion
+    let query = urlObj.search.slice(1);
+    if (verifyCall.verify(query)) {
+        //get token
+        securityPass = true;
+    } else {
+        //exit
+        securityPass = false;
+    }
+
+    if (securityPass && regex) {
+
+        //Exchange temporary code for a permanent access token
+        let accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
+        let accessTokenPayload = {
+            client_id: appId,
+            client_secret: appSecret,
+            code,
+        };
+
+        request.post(accessTokenRequestUrl, { json: accessTokenPayload })
+            .then(async (accessTokenResponse) => {
+                accessToken = accessTokenResponse.access_token;
+                const up = await Template.updateOne({shop:shop},{accessToken:accessToken},{
+                  upsert : true
+                });
+
+                res.redirect('/');
+            })
+            .catch((error) => {
+                res.status(error.statusCode).send(error.error.error_description);
+            });
+    }
+    else {
+        console.log("accessToken error");
+    }
+
 });
 
+
+// app.get('/', function (req, res, next) {
+//   open( 'https://immense-bastion-38233.herokuapp.com', function (err) {
+//     if ( err ) throw err;
+//   });
+// });
+//
 
 
 var html
