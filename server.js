@@ -107,6 +107,7 @@ app.get('/auth',function (req, res, next) {
         request.post(accessTokenRequestUrl, { json: accessTokenPayload })
             .then(async (accessTokenResponse) => {
                 accessToken = accessTokenResponse.access_token;
+                console.log(accessToken);
                 const up = await Template.updateOne({shop:shop},{accessToken:accessToken},{
                   upsert : true
                 });
