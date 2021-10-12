@@ -11,14 +11,17 @@ var nodemailer = require('nodemailer');
 var verifyCall = require('./tools/verify');
 const Template = require("./models/templateModel");
 const axios = require('axios');
-const createApp = require("@shopify/app-bridge")
-const {Redirect} = '@shopify/app-bridge/actions';
-const open = require("open")
 
 
+const app = createApp({
+  apiKey: config.api_key,
+  host: config.host
+});
+const redirect = Redirect.create(app);
+redirect.dispatch(Redirect.Action.APP, '/authenticate');
 
-
-const app = express();
+var host = "immense-bastion-38233.herokuapp.com"
+app = express();
 var shop = "";
 var from = "test.purpose.editor@gmail.com";
 const transporter = nodemailer.createTransport({
@@ -43,7 +46,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-var installUrl=""
+
 app.get("/authenticate", async function(req,res){
   shop = req.query.shop;
   var appId = config.api_key;
@@ -55,13 +58,13 @@ app.get("/authenticate", async function(req,res){
 
   res.redirect(installUrl);
 
-  // const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
-  // if (accessToken.length > 0) {
-  //       res.redirect('/');
-  //   } else {
-  //       //go here if you don't have the token yet
-  //       res.redirect(installUrl);
-  //   }
+  const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
+  if (accessToken.length > 0) {
+        res.redirect('/');
+    } else {
+        //go here if you don't have the token yet
+        res.redirect(installUrl);
+    }
 
 })
 
@@ -107,12 +110,11 @@ app.get('/auth',async function (req, res, next) {
         request.post(accessTokenRequestUrl, { json: accessTokenPayload })
             .then(async (accessTokenResponse) => {
                 accessToken = accessTokenResponse.access_token;
-                console.log(accessToken);
                 await Template.updateOne({shop:shop},{token:accessToken},{
                   upsert : true
                 });
 
-                res.redirect('https://immense-bastion-38233.herokuapp.com');
+                res.redirect('/';
             })
             .catch((error) => {
                 res.status(error.statusCode).send(error.error.error_description);
@@ -125,17 +127,10 @@ app.get('/auth',async function (req, res, next) {
 });
 
 
-// app.get('/', function (req, res, next) {
-//   open( 'https://immense-bastion-38233.herokuapp.com', function (err) {
-//     if ( err ) throw err;
-//   });
-// });
-//
-
-
 var html
 
 app.post("/api",( async (req,res) => {
+
   let counters = JSON.stringify(req.body.counters);
   let body = JSON.stringify(req.body.body);
   html = req.body.html;

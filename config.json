@@ -4,5 +4,6 @@
   "scopes" : "write_orders,read_customers",
   "redirect_url" : "https://immense-bastion-38233.herokuapp.com/",
   "name" : "shubham",
-  "pass" : "7Hh1qWROphs5w4bn"
+  "pass" : "7Hh1qWROphs5w4bn",
+  "host" : "immense-bastion-38233.herokuapp.com"
 }
