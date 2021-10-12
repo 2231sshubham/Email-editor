@@ -10,7 +10,9 @@ var config = require('./config.json');
 var nodemailer = require('nodemailer');
 var verifyCall = require('./tools/verify');
 const Template = require("./models/templateModel");
-const axios = require('axios')
+const axios = require('axios');
+import createApp from '@shopify/app-bridge';
+import {Redirect} from '@shopify/app-bridge/actions';
 
 
 
@@ -48,16 +50,30 @@ app.get("/authenticate", async function(req,res){
   var appScope = config.scopes;
   var appDomain = "immense-bastion-38233.herokuapp.com"
 
+  const app = createApp({
+  apiKey: config.api_key,
+  host: shop+'myshopify.com',
+  });
+  const redirect = Redirect.create(app);
+
+
+
   var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
   res.redirect(installUrl);
 
   const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
   if (accessToken.length > 0) {
-        res.redirect('/');
+    redirect.dispatch(Redirect.Action.REMOTE, {
+        url: '/',
+        newContext: true,
+        });
     } else {
         //go here if you don't have the token yet
-        res.redirect(installUrl);
+        redirect.dispatch(Redirect.Action.REMOTE, {
+          url: installUrl,
+          newContext: true,
+          });
     }
 
 })
@@ -82,6 +98,7 @@ app.get('/auth',function (req, res, next) {
         securityPass = false;
     }
     let query = qs.stringify(req.query)
+    console.log(query);
     if (verifyCall.verify(query)) {
         //get token
         securityPass = true;
@@ -93,7 +110,7 @@ app.get('/auth',function (req, res, next) {
     if (securityPass && regex) {
 
         //Exchange temporary code for a permanent access token
-        let accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
+        let accessTokenRequestUrl = 'https://'+shop+'.myshopify.com/admin/oauth/access_token';
         let accessTokenPayload = {
             client_id: appId,
             client_secret: appSecret,
