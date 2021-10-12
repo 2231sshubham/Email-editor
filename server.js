@@ -60,11 +60,11 @@ app.get("/authenticate", async function(req,res){
 
   var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}`;
 
-  redirect.dispatch(Redirect.Action.REMOTE, {
-    url: installUrl,
-    newContext: true,
-  });
-
+  // redirect.dispatch(Redirect.Action.REMOTE, {
+  //   url: installUrl,
+  //   newContext: true,
+  // });
+  res.redirect(installUrl)
   // const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
   // console.log(accessToken.length);
   // if (accessToken.length > 0) {
