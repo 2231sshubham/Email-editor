@@ -53,15 +53,15 @@ app.get("/authenticate", async function(req,res){
 
   installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
-  // res.redirect(installUrl);
+  res.redirect(installUrl);
 
-  const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
-  if (accessToken.length > 0) {
-        res.redirect('/');
-    } else {
-        //go here if you don't have the token yet
-        res.redirect(installUrl);
-    }
+  // const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
+  // if (accessToken.length > 0) {
+  //       res.redirect('/');
+  //   } else {
+  //       //go here if you don't have the token yet
+  //       res.redirect(installUrl);
+  //   }
 
 })
 
