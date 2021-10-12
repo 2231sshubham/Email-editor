@@ -65,17 +65,10 @@ app.get("/authenticate", async function(req,res){
   const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
   console.log(accessToken.length);
   if (accessToken.length > 0) {
-    redirect.dispatch(Redirect.Action.REMOTE, {
-        url: `https://${appDomain}`,
-        newContext: true,
-        });
-    } else {
-        //go here if you don't have the token yet
-        redirect.dispatch(Redirect.Action.REMOTE, {
-          url: installUrl,
-          newContext: true,
-          });
-    }
+    res.redirect("/")
+  }else{
+    res.redirect(installUrl)
+  }
 
 })
 
@@ -127,7 +120,10 @@ app.get('/auth',function (req, res, next) {
                 upsert : true
               });
 
-              res.redirect('/');
+              redirect.dispatch(Redirect.Action.REMOTE, {
+                  url: `https://${appDomain}`,
+                  newContext: true,
+                  });
           })
           .catch((error) => {
               res.status(error.statusCode).send(error.error.error_description);
