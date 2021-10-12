@@ -11,8 +11,8 @@ var nodemailer = require('nodemailer');
 var verifyCall = require('./tools/verify');
 const Template = require("./models/templateModel");
 const axios = require('axios');
-import createApp from '@shopify/app-bridge';
-import {Redirect} from '@shopify/app-bridge/actions';
+const createApp = require("@shopify/app-bridge")
+const {Redirect} = '@shopify/app-bridge/actions';
 
 
 
