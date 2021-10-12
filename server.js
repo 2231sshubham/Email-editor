@@ -72,9 +72,10 @@ var accessToken = "";
 app.get('/auth',async function (req, res, next) {
   const accessToken = await Template.find({shop:shop},{_id:0,token:1});
   if (accessToken.length > 0) {
-        res.redirect('/');
+      console.log("REDIRECTING TO HOME");
+      res.redirect('https://immense-bastion-38233.herokuapp.com');
     } else {
-        //go here if you don't have the token yet
+        console.log("Redirecting to installUrl");
         res.redirect(installUrl);
     }
     let securityPass = false;
