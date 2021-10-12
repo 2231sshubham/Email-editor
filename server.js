@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const router = express.Router();
 const path = require("path")
-var url = require("url")
+var Url = require('url-parse');
 var config = require('./config.json');
 var nodemailer = require('nodemailer');
 var verifyCall = require('./tools/verify');
@@ -80,7 +80,7 @@ app.get('/auth',function (req, res, next) {
     }
 
     // 1. Parse the string URL to object
-    let urlObj = url.parse(req.url);
+    let urlObj = new Url(req.url);
     // 2. Get the 'query string' portion
     let query = urlObj.search.slice(1);
     if (verifyCall.verify(query)) {
