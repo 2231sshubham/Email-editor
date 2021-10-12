@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const path = require("path")
 const request  = require("request-promise")
 var qs = require('querystringify');
 var config = require('./config.json');
