@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const router = express.Router();
 const path = require("path")
-var Url = require('url-parse');
+var qs = require('querystringify');
 var config = require('./config.json');
 var nodemailer = require('nodemailer');
 var verifyCall = require('./tools/verify');
@@ -78,12 +78,7 @@ app.get('/auth',function (req, res, next) {
         //exit
         securityPass = false;
     }
-
-    // 1. Parse the string URL to object
-    let urlObj = new Url(req.url);
-    // 2. Get the 'query string' portion
-    let urlString = urlObj.toString();
-    let query = urlString.search.slice(1);
+    let query = qs.stringify(req.query)
     if (verifyCall.verify(query)) {
         //get token
         securityPass = true;
