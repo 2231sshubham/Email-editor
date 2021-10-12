@@ -70,8 +70,12 @@ app.get("/authenticate", async function(req,res){
 
 var accessToken = "";
 app.get('/auth',function (req, res, next) {
-    if(req.url!=installUrl){
-      res.redirect(installUrl)
+  const accessToken = await Template.find({shop:shop},{_id:0,token:1});
+  if (accessToken.length > 0) {
+        res.redirect('/');
+    } else {
+        //go here if you don't have the token yet
+        res.redirect(installUrl);
     }
     let securityPass = false;
     let appId = config.api_key;
