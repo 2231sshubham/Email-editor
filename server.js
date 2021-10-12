@@ -10,6 +10,8 @@ var config = require('./config.json');
 var nodemailer = require('nodemailer');
 var verifyCall = require('./tools/verify');
 const Template = require("./models/templateModel");
+const axios = require('axios')
+
 
 
 
@@ -98,18 +100,21 @@ app.get('/auth',function (req, res, next) {
             code,
         };
 
-        request.post(accessTokenRequestUrl, { json: accessTokenPayload })
-            .then(async (accessTokenResponse) => {
-                accessToken = accessTokenResponse.access_token;
-                const up = await Template.updateOne({shop:shop},{accessToken:accessToken},{
-                  upsert : true
-                });
 
-                res.redirect('/');
-            })
-            .catch((error) => {
-                res.status(error.statusCode).send(error.error.error_description);
-            });
+        axios
+          .post(accessTokenRequestUrl, { json: accessTokenPayload })
+          .then(async (accessTokenResponse) => {
+              accessToken = accessTokenResponse.access_token;
+              const up = await Template.updateOne({shop:shop},{accessToken:accessToken},{
+                upsert : true
+              });
+
+              res.redirect('/');
+          })
+          .catch((error) => {
+              res.status(error.statusCode).send(error.error.error_description);
+          });
+
     }
     else {
         console.log("accessToken error");
