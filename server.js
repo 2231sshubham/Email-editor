@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-
+var installUrl=""
 app.get("/authenticate", async function(req,res){
   shop = req.query.shop;
   var appId = config.api_key;
@@ -51,7 +51,7 @@ app.get("/authenticate", async function(req,res){
   var appScope = config.scopes;
   var appDomain = "immense-bastion-38233.herokuapp.com"
 
-  var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
+  installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
   res.redirect(installUrl);
 
@@ -70,6 +70,9 @@ app.get("/authenticate", async function(req,res){
 
 var accessToken = "";
 app.get('/auth',function (req, res, next) {
+    if(req.url!=installUrl){
+      res.redirect(installUrl)
+    }
     let securityPass = false;
     let appId = config.api_key;
     let appSecret = config.api_secret;
@@ -108,11 +111,11 @@ app.get('/auth',function (req, res, next) {
             .then(async (accessTokenResponse) => {
                 accessToken = accessTokenResponse.access_token;
                 console.log(accessToken);
-                const up = await Template.updateOne({shop:shop},{accessToken:accessToken},{
+                await Template.updateOne({shop:shop},{token:accessToken},{
                   upsert : true
                 });
 
-                res.redirect('/');
+                res.redirect('https://immense-bastion-38233.herokuapp.com');
             })
             .catch((error) => {
                 res.status(error.statusCode).send(error.error.error_description);
