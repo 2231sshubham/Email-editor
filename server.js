@@ -53,7 +53,7 @@ app.get("/authenticate", async function(req,res){
 
   installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
-  res.redirect(installUrl);
+  // res.redirect(installUrl);
 
   const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
   if (accessToken.length > 0) {
@@ -70,14 +70,6 @@ app.get("/authenticate", async function(req,res){
 
 var accessToken = "";
 app.get('/auth',async function (req, res, next) {
-  const accessToken = await Template.find({shop:shop},{_id:0,token:1});
-  if (accessToken.length > 0) {
-      console.log("REDIRECTING TO HOME");
-      res.redirect('https://immense-bastion-38233.herokuapp.com');
-    } else {
-        console.log("Redirecting to installUrl");
-        res.redirect(installUrl);
-    }
     let securityPass = false;
     let appId = config.api_key;
     let appSecret = config.api_secret;
