@@ -58,83 +58,86 @@ app.get("/authenticate", async function(req,res){
 
 
 
-  var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
+  var installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}`;
 
-  res.redirect(installUrl);
+  redirect.dispatch(Redirect.Action.REMOTE, {
+    url: installUrl,
+    newContext: true,
+  });
 
-  const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
-  console.log(accessToken.length);
-  if (accessToken.length > 0) {
-    res.redirect("/")
-  }else{
-    res.redirect(installUrl)
-  }
+  // const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
+  // console.log(accessToken.length);
+  // if (accessToken.length > 0) {
+  //   res.redirect("/")
+  // }else{
+  //   res.redirect(installUrl)
+  // }
 
 })
 
 // ACCESS-TOKEN
-
-var accessToken = "";
-app.get('/auth',function (req, res, next) {
-    let securityPass = false;
-    let appId = config.api_key;
-    let appSecret = config.api_secret;
-    let code = req.query.code;
-
-
-    const regex = /^[a-z\d_.-]+[.]myshopify[.]com$/;
-
-    if (shop.match(regex)) {
-        console.log('regex is ok');
-        securityPass = true;
-    } else {
-        //exit
-        securityPass = false;
-    }
-    let query = qs.stringify(req.query)
-    console.log(query);
-    if (verifyCall.verify(query)) {
-        //get token
-        securityPass = true;
-    } else {
-        //exit
-        securityPass = false;
-    }
-
-    if (securityPass && regex) {
-
-        //Exchange temporary code for a permanent access token
-        let accessTokenRequestUrl = 'https://'+shop+'.myshopify.com/admin/oauth/access_token';
-        let accessTokenPayload = {
-            client_id: appId,
-            client_secret: appSecret,
-            code,
-        };
-
-
-        axios
-          .post(accessTokenRequestUrl, { json: accessTokenPayload })
-          .then(async (accessTokenResponse) => {
-              accessToken = accessTokenResponse.access_token;
-              const up = await Template.updateOne({shop:shop},{accessToken:accessToken},{
-                upsert : true
-              });
-
-              redirect.dispatch(Redirect.Action.REMOTE, {
-                  url: `https://${appDomain}`,
-                  newContext: true,
-                  });
-          })
-          .catch((error) => {
-              res.status(error.statusCode).send(error.error.error_description);
-          });
-
-    }
-    else {
-        console.log("accessToken error");
-    }
-
-});
+//
+// var accessToken = "";
+// app.get('/auth',function (req, res, next) {
+//     let securityPass = false;
+//     let appId = config.api_key;
+//     let appSecret = config.api_secret;
+//     let code = req.query.code;
+//
+//
+//     const regex = /^[a-z\d_.-]+[.]myshopify[.]com$/;
+//
+//     if (shop.match(regex)) {
+//         console.log('regex is ok');
+//         securityPass = true;
+//     } else {
+//         //exit
+//         securityPass = false;
+//     }
+//     let query = qs.stringify(req.query)
+//     console.log(query);
+//     if (verifyCall.verify(query)) {
+//         //get token
+//         securityPass = true;
+//     } else {
+//         //exit
+//         securityPass = false;
+//     }
+//
+//     if (securityPass && regex) {
+//
+//         //Exchange temporary code for a permanent access token
+//         let accessTokenRequestUrl = 'https://'+shop+'.myshopify.com/admin/oauth/access_token';
+//         let accessTokenPayload = {
+//             client_id: appId,
+//             client_secret: appSecret,
+//             code,
+//         };
+//
+//
+//         axios
+//           .post(accessTokenRequestUrl, { json: accessTokenPayload })
+//           .then(async (accessTokenResponse) => {
+//               accessToken = accessTokenResponse.access_token;
+//               const up = await Template.updateOne({shop:shop},{accessToken:accessToken},{
+//                 upsert : true
+//               });
+//
+//               redirect.dispatch(Redirect.Action.REMOTE, {
+//                   url: `https://${appDomain}`,
+//                   newContext: true,
+//                   });
+//           })
+//           .catch((error) => {
+//               res.status(error.statusCode).send(error.error.error_description);
+//           });
+//
+//     }
+//     else {
+//         console.log("accessToken error");
+//     }
+//
+// });
 
 
 
