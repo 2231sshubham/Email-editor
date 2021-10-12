@@ -63,9 +63,10 @@ app.get("/authenticate", async function(req,res){
   res.redirect(installUrl);
 
   const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
+  console.log(accessToken.length);
   if (accessToken.length > 0) {
     redirect.dispatch(Redirect.Action.REMOTE, {
-        url: '/',
+        url: `https://${appDomain}`,
         newContext: true,
         });
     } else {
