@@ -51,8 +51,8 @@ app.get("/authenticate", async function(req,res){
   var appDomain = "immense-bastion-38233.herokuapp.com"
 
   const app = createApp({
-  apiKey: config.api_key,
-  host: shop+'myshopify.com',
+  apiKey: appId,
+  host: appDomain,
   });
   const redirect = Redirect.create(app);
 
