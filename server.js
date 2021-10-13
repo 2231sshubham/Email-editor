@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path")
-const request  = require("request-promise")
+const request = require("request-promise")
 var qs = require('querystringify');
 var config = require('./config.json');
 var nodemailer = require('nodemailer');
@@ -16,29 +16,31 @@ const app = express();
 var shop = "";
 var from = "test.purpose.editor@gmail.com";
 const transporter = nodemailer.createTransport({
-port: 465,
-host: "smtp.gmail.com",
-   auth: {
-        user: from,
-        pass: 'thwk342?3',
-     },
-secure: true,
+  port: 465,
+  host: "smtp.gmail.com",
+  auth: {
+    user: from,
+    pass: 'thwk342?3',
+  },
+  secure: true,
 });
 
 
 name = config.name;
 pass = config.pass;
-var url = "mongodb+srv://"+name+":"+pass+"@email-editor.kre0j.mongodb.net/email-editor";
+var url = "mongodb+srv://" + name + ":" + pass + "@email-editor.kre0j.mongodb.net/email-editor";
 mongoose.connect(url)
 
 app.use(cors())
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 
 
-app.get("/authenticate", async function(req,res){
+app.get("/authenticate", async function(req, res) {
   shop = req.query.shop;
   var appId = config.api_key;
   var appSecret = config.api_secret;
@@ -47,13 +49,18 @@ app.get("/authenticate", async function(req,res){
 
   installUrl = `https://${shop}/admin/oauth/authorize?client_id=${appId}&scope=${appScope}&redirect_uri=https://${appDomain}/auth`;
 
-  const accessToken = await Template.find({shop:shop},{_id:0,accessToken:1});
+  const accessToken = await Template.find({
+    shop: shop
+  }, {
+    _id: 0,
+    accessToken: 1
+  });
   if (accessToken.length > 0) {
-        res.redirect('/');
-    } else {
-        //go here if you don't have the token yet
-        res.redirect(installUrl);
-    }
+    res.redirect('/');
+  } else {
+    //go here if you don't have the token yet
+    res.redirect(installUrl);
+  }
 
 })
 
@@ -61,112 +68,124 @@ app.get("/authenticate", async function(req,res){
 // ACCESS-TOKEN
 
 var accessToken = "";
-app.get('/auth',async function (req, res, next) {
-    let securityPass = false;
-    let appId = config.api_key;
-    let appSecret = config.api_secret;
-    let code = req.query.code;
+app.get('/auth', async function(req, res, next) {
+  let securityPass = false;
+  let appId = config.api_key;
+  let appSecret = config.api_secret;
+  let code = req.query.code;
 
 
-    const regex = /^[a-z\d_.-]+[.]myshopify[.]com$/;
+  const regex = /^[a-z\d_.-]+[.]myshopify[.]com$/;
 
-    if (shop.match(regex)) {
-        console.log('regex is ok');
-        securityPass = true;
-    } else {
-        //exit
-        securityPass = false;
-    }
-    let query = qs.stringify(req.query);
-    if (verifyCall.verify(query)) {
-        //get token
-        securityPass = true;
-    } else {
-        //exit
-        securityPass = false;
-    }
+  if (shop.match(regex)) {
+    console.log('regex is ok');
+    securityPass = true;
+  } else {
+    //exit
+    securityPass = false;
+  }
+  let query = qs.stringify(req.query);
+  if (verifyCall.verify(query)) {
+    //get token
+    securityPass = true;
+  } else {
+    //exit
+    securityPass = false;
+  }
 
-    if (securityPass && regex) {
+  if (securityPass && regex) {
 
-        //Exchange temporary code for a permanent access token
-        let accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
-        let accessTokenPayload = {
-            client_id: appId,
-            client_secret: appSecret,
-            code,
-        };
+    //Exchange temporary code for a permanent access token
+    let accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
+    let accessTokenPayload = {
+      client_id: appId,
+      client_secret: appSecret,
+      code,
+    };
 
-        request.post(accessTokenRequestUrl, { json: accessTokenPayload })
-            .then(async (accessTokenResponse) => {
-                accessToken = accessTokenResponse.access_token;
-                await Template.updateOne({shop:shop},{token:accessToken},{
-                  upsert : true
-                });
+    request.post(accessTokenRequestUrl, {
+        json: accessTokenPayload
+      })
+      .then(async (accessTokenResponse) => {
+        accessToken = accessTokenResponse.access_token;
+        await Template.updateOne({
+          shop: shop
+        }, {
+          token: accessToken
+        }, {
+          upsert: true
+        });
 
-                res.redirect('/');
-            })
-            .catch((error) => {
-                res.status(error.statusCode).send(error.error.error_description);
-            });
-    }
-    else {
-        console.log("accessToken error");
-    }
+        res.redirect('/');
+      })
+      .catch((error) => {
+        res.status(error.statusCode).send(error.error.error_description);
+      });
+  } else {
+    console.log("accessToken error");
+  }
 
 });
 
 
-var html
-
-app.post("/api",( async (req,res) => {
+app.post("/api", (async (req, res) => {
 
   let counters = JSON.stringify(req.body.counters);
   let body = JSON.stringify(req.body.body);
-  html = req.body.html;
-  const ans = await Template.updateOne(
-     {shop : shop },
-     {
-       counters : counters,
-       body : body,
-       html : html
-     },
-     {
-       upsert : true
-     }
-   )
-   res.send("Succesfully saved: " + shop);
+  let html = req.body.html;
+  const ans = await Template.updateOne({
+    shop: shop
+  }, {
+    counters: counters,
+    body: body,
+    html: html
+  }, {
+    upsert: true
+  })
+  console.log(html);
+  res.send("Succesfully saved: " + shop);
 
-  }));
-
-
-
-
-app.get("/api",((req,res) => {
-
-  const query  = Template.where({ shop: shop });
-
-  query.findOne(function (err, template) {
-    if (err) return handleError(err);
-    if (template){
-      res.send(template)
-      }
-
-    });
 }));
 
 
-app.post("/form",async function(req,res){
-  const {to,subject,body} = req.body
-  const html  = await Template.find({shop:shop},{html:1,_id:0});
+
+app.get("/api", ((req, res) => {
+
+  const query = Template.where({
+    shop: shop
+  });
+
+  query.findOne(function(err, template) {
+    if (err) return handleError(err);
+    if (template) {
+      res.send(template)
+    }
+
+  });
+}));
+
+
+app.post("/form", async function(req, res) {
+  const {
+    to,
+    subject,
+    body
+  } = req.body
+  const html = await Template.find({
+    shop: shop
+  }, {
+    html: 1,
+    _id: 0
+  });
   const mailData = {
     from: from,
     to: to,
     subject: subject,
     text: body,
-    html : "<p>You've Succesfully sent an email</p>"
+    html: "<p>You've Succesfully sent an email</p>"
   };
-    transporter.sendMail(mailData, function (err, info) {
-      if(err)
+  transporter.sendMail(mailData, function(err, info) {
+    if (err)
       console.log(err)
     else
       console.log(info);
@@ -181,6 +200,6 @@ app.get('*', function(req, res) {
 });
 
 
-app.listen(process.env.PORT || 3001,function(){
+app.listen(process.env.PORT || 3001, function() {
   console.log('Server started');
 });

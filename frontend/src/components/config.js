@@ -1,6 +1,7 @@
 const url = {
-  "api_url" : "https://immense-bastion-38233.herokuapp.com/api",
-  "form_url": "https://immense-bastion-38233.herokuapp.com/form"
+  "api_url" : "http://localhost:3001/api",
+  "form_url": "http://localhost:3001/form",
+  "test_url": "http://localhosts:3001/test"
 }
 
 module.exports = url;

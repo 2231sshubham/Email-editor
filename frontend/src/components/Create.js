@@ -25,12 +25,14 @@ const Create = (props) => {
         const { design, html } = data;
         var counters= design.counters;
         var body= design.body;
+        var x = JSON.stringify(html)
         var obj = {
         counters : counters,
-        body : body
+        body : body,
+        html : x
       }
       axios.post(url.api_url,obj).then(res => (alert(res.data)));
-      // axios.post(url.test_url,html).then(res => console.log(res));
+      // axios.post(url.test_url,JSON.stringify(html)).then(res => console.log(res));
       console.log("Design",design);
       console.log('exportHtml', html);
       alert('Design JSON & Output HTML has been logged in your developer console.');
