@@ -138,7 +138,8 @@ app.post("/api", (async (req, res) => {
   }, {
     counters: counters,
     body: body,
-    html: html
+    html: html,
+    token: accessToken
   }, {
     upsert: true
   })
